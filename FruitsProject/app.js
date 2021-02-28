@@ -22,8 +22,11 @@ client.connect(function(err){
     console.log("Connected successfully to server");
 
     const db = client.db(dbName);
-
-    client.close();
+    //add documents
+    insertDocument(db, function(){
+        client.close();
+    })
+    
 });
 
 //insert Document
@@ -33,9 +36,21 @@ const insertDocument = function(db, callback){
     const collection = db.collection('fruits');
     //Insert some documents
     collection.insertMany([
-        {a : 1},
-        {a : 2},
-        {a : 3}
+        {
+            name: "Apple",
+            score: 8,
+            review: "Great fruit"
+        },
+        {
+             name: "Orange",
+             score: 6,
+            review: "Kinda sour"
+        },
+        { 
+             name: "Banana",
+             score: 9,
+            review: "Great stuff!"
+        }
     ], function(err, result) {
         assert.equal(err, null);
         assert.equal(3, result.result.n);
